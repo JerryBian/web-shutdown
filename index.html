@@ -30,11 +30,11 @@
         let btnReboot = document.querySelector('#btnReboot')
 
         btnShutdown.addEventListener('click', function(){
-            sendCommand('shutdown', this)
+            sendCommand('shutdown')
         })
 
         btnReboot.addEventListener('click', function(){
-            sendCommand('reboot', this)
+            sendCommand('reboot')
         })
 
         function disableButtons() {
@@ -42,13 +42,18 @@
             btnReboot.disabled = true
         }
 
-        function sendCommand(action, btn) {
+        function enableButtons() {
+            btnShutdown.disabled = false
+            btnReboot.disabled = false
+        }
+
+        function sendCommand(action) {
             disableButtons()
             fetch(`/${action}`, {
                 method: 'POST'
             })
             .then(r=>{
-                btn.disabled = false
+                enableButtons()
                 if(!r.ok){
                     cmdOutput.value = `${action} failed: ${r.text()}`
                 }else{
