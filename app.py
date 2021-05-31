@@ -15,7 +15,7 @@ def shutdown():
     return jsonify({'stdout': command.stdout.decode(), 'stderr': command.stderr.decode()})
 
 @app.route('/reboot', methods=['POST'])
-def shutdown():
+def reboot():
     command = subprocess.run(['sudo', 'reboot'], capture_output=True)
     return jsonify({'stdout': command.stdout.decode(), 'stderr': command.stderr.decode()})
 
