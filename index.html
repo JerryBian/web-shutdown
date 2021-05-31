@@ -44,7 +44,7 @@
 
         function sendCommand(action, btn) {
             disableButtons()
-            fetch(`'/${action}`, {
+            fetch(`/${action}`, {
                 method: 'POST'
             })
             .then(r=>{

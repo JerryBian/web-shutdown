@@ -11,7 +11,7 @@ def index():
 
 @app.route('/shutdown', methods=['POST'])
 def shutdown():
-    command = subprocess.run(['sudo', 'shutdown'], capture_output=True)
+    command = subprocess.run(['echo', 'hello'], capture_output=True)
     return jsonify({'stdout': command.stdout.decode(), 'stderr': command.stderr.decode()})
 
 @app.route('/reboot', methods=['POST'])
