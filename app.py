@@ -53,10 +53,10 @@ def reboot():
 
 def exeCmd(args):
     logger.info(f'begin exec {args}')
-    time.sleep(2)
+    time.sleep(1)
+    sendMail(f'<code>{args}</code> request finished.')
     command = subprocess.run(args, capture_output=True)
     logger.info(f'end exec {args}')
-    sendMail(f'<code>{args}</code> request finished.')
     return command
 
 def sendMail(message):
