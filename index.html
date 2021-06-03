@@ -19,15 +19,18 @@
             <button type="button" class="btn btn-danger" id="btnShutdown">Shutdown</button>
             <button type="button" class="btn btn-warning" id="btnReboot">Reboot</button>
         </div>
-        <div class="mt-3">
-            <label for="cmdOutput" class="form-label">Command output</label>
-            <textarea class="form-control" id="cmdOutput" rows="5"></textarea>
+          <div class="alert alert-success mt-3" role="alert" id="outDiv">
+            <p id="cmdOutput"></p>
+            <hr>
+            <p class="mb-0" id="cmdError"></p>
           </div>
     </div>
     <script>
         let cmdOutput = document.querySelector('#cmdOutput')
+        let cmdError = document.querySelector('#cmdError')
         let btnShutdown = document.querySelector('#btnShutdown')
         let btnReboot = document.querySelector('#btnReboot')
+        let outDiv = document.querySelector('#outDiv')
 
         btnShutdown.addEventListener('click', function(){
             sendCommand('shutdown')
@@ -53,15 +56,17 @@
                 method: 'POST'
             })
             .then(r=>{
-                enableButtons()
+                outDiv.classList.add('visible')
                 if(!r.ok){
                     cmdOutput.value = `${action} failed: ${r.text()}`
+                    enableButtons()
                 }else{
                     return r.json()
                 }
             })
             .then(r => {
-                cmdOutput.value = `stdout:\n${r.stdout}\nstderr:\n${r.stderr}`
+                cmdOutput.value = `${r.stdout}`
+                cmdError.value = `${r.stderr}`
             })
         }
     </script>
