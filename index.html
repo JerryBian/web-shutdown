@@ -19,7 +19,7 @@
             <button type="button" class="btn btn-danger" id="btnShutdown">Shutdown</button>
             <button type="button" class="btn btn-warning" id="btnReboot">Reboot</button>
         </div>
-          <div class="alert alert-success mt-3" role="alert" id="outDiv">
+          <div class="alert alert-success mt-3 invisible" role="alert" id="outDiv">
             <p id="cmdOutput"></p>
             <hr>
             <p class="mb-0" id="cmdError"></p>
@@ -56,7 +56,7 @@
                 method: 'POST'
             })
             .then(r=>{
-                outDiv.classList.add('visible')
+                outDiv.classList.remove('invisible')
                 if(!r.ok){
                     cmdOutput.value = `${action} failed: ${r.text()}`
                     enableButtons()

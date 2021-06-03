@@ -4,6 +4,7 @@ import subprocess
 import traceback
 import logging
 import os
+import time
 
 app = Flask(__name__, static_url_path='')
 
@@ -38,9 +39,13 @@ def reboot():
 
 def exeCmd(args):
     command = subprocess.run(args, capture_output=True)
-    thread = Thread(target = lambda: subprocess.run(args, capture_output=True))
+    thread = Thread(target = exeCmdInternal(args))
     thread.start()
     return (thread, command)
+
+def exeCmdInternal(args):
+    time.sleep(2)
+    subprocess.run(args, capture_output=True)
 
 if __name__ == '__main__':
     app.run(host=os.getenv('ENV_HOST', '127.0.0.1'), port=os.getenv('ENV_PORT', '5000'))
