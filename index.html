@@ -58,15 +58,15 @@
             .then(r=>{
                 outDiv.classList.remove('invisible')
                 if(!r.ok){
-                    cmdOutput.value = `${action} failed: ${r.text()}`
+                    cmdOutput.innerHTML = `${action} failed: ${r.text()}`
                     enableButtons()
                 }else{
                     return r.json()
                 }
             })
             .then(r => {
-                cmdOutput.value = `${r.stdout}`
-                cmdError.value = `${r.stderr}`
+                cmdOutput.innerHTML = `${r.stdout}`
+                cmdError.innerHTML = `${r.stderr}`
             })
         }
     </script>
