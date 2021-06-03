@@ -4,7 +4,7 @@ It is only tested in Ubuntu, other platforms might need to tweak a little bit, b
 
 ### Screenshot
 
-![web interface](./img/1.png)
+![web interface](./img/1.gif)
 
 ### Install
 
@@ -41,6 +41,17 @@ It is only tested in Ubuntu, other platforms might need to tweak a little bit, b
    systemctl start web-shutdown
    ```
 
+### Enviorment variables(Optional)
+
+In order to send notifications during startup/shutdown, you have to setup 2 variables:
+- `ENV_SENDGRID_API_KEY`: you could create free account to get the api key of [SendGrid](https://sendgrid.com/)
+- `ENV_MAIL_TO_ADDR`: the email address send to
+
+Optionally, you can specify more detailed configurations:
+- `ENV_MAIL_TO_NAME`: the name send to
+- `ENV_MAIL_FROM_ADDR`: the email address send from
+- `ENV_MAIL_FROM_TO`: the name send from
+
 ### License
 
-MIT.
+[MIT](./LICENSE)
