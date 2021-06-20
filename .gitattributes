@@ -21,4 +21,4 @@
 # Jupyter notebook
 *.ipynb  text
 
-templates/* linguist-vendored=false
+templates/* linguist-vendored

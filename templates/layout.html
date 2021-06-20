@@ -4,15 +4,9 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/css/bootstrap.min.css" rel="stylesheet"
-        integrity="sha384-+0n0xVW2eSR5OomGNYDnhzAbDsOXxcvSN1TPprVMTNDbiYZCxYbOOl7+AMvyTG2x" crossorigin="anonymous">
+    <link href="/assets/bootstrap.min.css" rel="stylesheet">
 
     <title>{% block title %}{% endblock %} - Shutdown your machine via Web</title>
-    <style type="text/css">
-        textarea {
-            resize: none;
-        }
-    </style>
 </head>
 
 <body class="h-100 w-100 d-flex justify-content-center align-items-center">
@@ -20,6 +14,7 @@
         <p class="text-center mb-4">Shutdown your machine via one click!</p>
         {% block body %}{% endblock %}
     </div>
+    <script src="/assets/bootstrap.min.js"></script>
     {% block script %}{% endblock %}
 </body>
 

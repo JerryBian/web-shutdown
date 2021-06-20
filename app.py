@@ -26,7 +26,7 @@ handler.setFormatter(formatter)
 logger.addHandler(handler)
 
 executor = ThreadPoolExecutor(5)
-app = Flask(__name__, static_url_path='')
+app = Flask(__name__, static_url_path='/assets', static_folder='assets')
 app.secret_key = os.getenv('ENV_SECRET_KEY', 'SECRET_KEY_DEFAULT')
 login_manager = LoginManager()
 login_manager.init_app(app)
