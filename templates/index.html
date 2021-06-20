@@ -1,0 +1,69 @@
+{% extends "layout.html" %}
+{% block title %}Home{% endblock %}
+
+{% block body %}
+{% if current_user.is_authenticated %}
+<div class="btn-group d-block text-center" role="group" aria-label="Basic mixed styles example">
+    <button type="button" class="btn btn-danger" id="btnShutdown">Shutdown</button>
+    <button type="button" class="btn btn-warning" id="btnReboot">Reboot</button>
+</div>
+<div class="alert alert-success mt-3 invisible" role="alert" id="outDiv">
+    <p id="cmdOutput" class="text-center"></p>
+    <hr>
+    <p class="mb-0" id="cmdError"></p>
+</div>
+<p class="text-center mt-3">Login as <em>{{ current_user.name }}</em>. Want to <a href="/logout">Logout</a>?</p>
+{% else %}
+<div class="alert alert-warning" role="alert">
+    You need to <a href="/login">Login</a>!
+</div>
+{% endif %}
+{% endblock %}
+
+{% block script %}
+<script>
+    let cmdOutput = document.querySelector('#cmdOutput')
+    let cmdError = document.querySelector('#cmdError')
+    let btnShutdown = document.querySelector('#btnShutdown')
+    let btnReboot = document.querySelector('#btnReboot')
+    let outDiv = document.querySelector('#outDiv')
+
+    btnShutdown.addEventListener('click', function () {
+        sendCommand('shutdown')
+    })
+
+    btnReboot.addEventListener('click', function () {
+        sendCommand('reboot')
+    })
+
+    function disableButtons() {
+        btnShutdown.disabled = true
+        btnReboot.disabled = true
+    }
+
+    function enableButtons() {
+        btnShutdown.disabled = false
+        btnReboot.disabled = false
+    }
+
+    function sendCommand(action) {
+        disableButtons()
+        fetch(`/${action}`, {
+            method: 'POST'
+        })
+            .then(r => {
+                outDiv.classList.remove('invisible')
+                if (!r.ok) {
+                    cmdOutput.innerHTML = `${action} failed: ${r.text()}`
+                    enableButtons()
+                } else {
+                    return r.json()
+                }
+            })
+            .then(r => {
+                cmdOutput.innerHTML = `${r.stdout}`
+                cmdError.innerHTML = `${r.stderr}`
+            })
+    }
+</script>
+{% endblock %}

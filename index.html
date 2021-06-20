@@ -25,50 +25,6 @@
             <p class="mb-0" id="cmdError"></p>
           </div>
     </div>
-    <script>
-        let cmdOutput = document.querySelector('#cmdOutput')
-        let cmdError = document.querySelector('#cmdError')
-        let btnShutdown = document.querySelector('#btnShutdown')
-        let btnReboot = document.querySelector('#btnReboot')
-        let outDiv = document.querySelector('#outDiv')
-
-        btnShutdown.addEventListener('click', function(){
-            sendCommand('shutdown')
-        })
-
-        btnReboot.addEventListener('click', function(){
-            sendCommand('reboot')
-        })
-
-        function disableButtons() {
-            btnShutdown.disabled = true
-            btnReboot.disabled = true
-        }
-
-        function enableButtons() {
-            btnShutdown.disabled = false
-            btnReboot.disabled = false
-        }
-
-        function sendCommand(action) {
-            disableButtons()
-            fetch(`/${action}`, {
-                method: 'POST'
-            })
-            .then(r=>{
-                outDiv.classList.remove('invisible')
-                if(!r.ok){
-                    cmdOutput.innerHTML = `${action} failed: ${r.text()}`
-                    enableButtons()
-                }else{
-                    return r.json()
-                }
-            })
-            .then(r => {
-                cmdOutput.innerHTML = `${r.stdout}`
-                cmdError.innerHTML = `${r.stderr}`
-            })
-        }
-    </script>
+    
   </body>
 </html>
