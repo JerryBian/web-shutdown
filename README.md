@@ -56,8 +56,10 @@ Optionally, you can specify more detailed configurations:
 #### Misc
 
 - `ENV_SECRET_KEY`: secret key for authentication
-- `ENV_USER_NAME`: user name
-- `ENV_PASSWORD`: user password
+- `ENV_USER_NAME`: user name. _Default_: `admin`
+- `ENV_PASSWORD`: user password. _Default_: `adminadmin`
+- `ENV_HOST`: the hostname to listen on. _Default_: `127.0.0.1`
+- `ENV_PORT`: the port to listen on. _Default_: `5000`
 
 ### License
 
