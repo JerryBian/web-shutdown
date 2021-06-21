@@ -4,29 +4,25 @@
 {% block body %}
 {% if current_user.is_authenticated %}
 <div class="btn-group d-block text-center" role="group" aria-label="Basic mixed styles example">
-    <button type="button" class="btn btn-danger" id="btnShutdown">Shutdown</button>
-    <button type="button" class="btn btn-warning" id="btnReboot">Reboot</button>
+    <button type="button" class="btn btn-danger btn-lg" id="btnShutdown">Shutdown</button>
+    <button type="button" class="btn btn-warning btn-lg" id="btnReboot">Reboot</button>
 </div>
-<div class="alert alert-success mt-3 invisible" role="alert" id="outDiv">
-    <p id="cmdOutput" class="text-center"></p>
-    <hr>
-    <p class="mb-0" id="cmdError"></p>
-</div>
-<p class="text-center mt-3">Login as <em>{{ current_user.name }}</em>. Want to <a href="/logout">Logout</a>?</p>
+<p class="text-center mt-5 fs-6">Login as <em>{{ current_user.name }}</em>. Want to <a href="/logout">Logout</a>?</p>
 {% else %}
 <div class="alert alert-warning" role="alert">
     You need to <a href="/login">Login</a>!
 </div>
 {% endif %}
+<div class="w-100 h-100 bg-dark text-white position-fixed d-flex justify-content-center align-items-center invisible fs-5"
+    style="z-index: 100;left:0;top:0;" id="cmdOutput">
+</div>
 {% endblock %}
 
 {% block script %}
 <script>
     let cmdOutput = document.querySelector('#cmdOutput')
-    let cmdError = document.querySelector('#cmdError')
     let btnShutdown = document.querySelector('#btnShutdown')
     let btnReboot = document.querySelector('#btnReboot')
-    let outDiv = document.querySelector('#outDiv')
 
     btnShutdown.addEventListener('click', function () {
         sendCommand('shutdown')
@@ -52,18 +48,33 @@
             method: 'POST'
         })
             .then(r => {
-                outDiv.classList.remove('invisible')
+                cmdOutput.classList.remove('invisible')
                 if (!r.ok) {
-                    cmdOutput.innerHTML = `${action} failed: ${r.text()}`
-                    enableButtons()
+                    error()
+                    return r.text()
                 } else {
                     return r.json()
                 }
             })
             .then(r => {
-                cmdOutput.innerHTML = `${r.stdout}`
-                cmdError.innerHTML = `${r.stderr}`
+                if (r.stdout) {
+                    cmdOutput.innerHTML = `${r.stdout}`
+                }
+                else if (r.stderr) {
+                    cmdOutput.innerHTML = `${r.stderr}`
+                }
+
+                if (cmdOutput.innerHTML.length <= 1) {
+                    cmdOutput.innerHTML = `${action} failed: ${r}`
+                }
             })
+    }
+
+    function error() {
+        enableButtons()
+        setTimeout(function () {
+            cmdOutput.classList.add('invisible')
+        }, 6000)
     }
 </script>
 {% endblock %}

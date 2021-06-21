@@ -22,3 +22,4 @@
 *.ipynb  text
 
 templates/* linguist-vendored
+assets/* linguist-vendored

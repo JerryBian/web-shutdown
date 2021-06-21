@@ -14,6 +14,7 @@ import os
 import time
 import datetime
 import sendgrid
+import socket
 
 logger = logging.getLogger(__name__)
 logger.setLevel(logging.DEBUG)
@@ -90,7 +91,7 @@ def shutdown():
     try:
         args = ['sudo', 'shutdown', '-h', 'now']
         executor.submit(exeCmd, args)
-        out = 'Machine has been shutdown successfully'
+        out = f'Machine({socket.gethostname()}) has been shutdown successfully'
     except Exception:
         err = traceback.format_exc()
         logger.error(err)
@@ -105,7 +106,7 @@ def reboot():
     try:
         args = ['sudo', 'shutdown', '-r', 'now']
         executor.submit(exeCmd, args)
-        out = 'Machine has been reboot successfully'
+        out = f'Machine({socket.gethostname()}) has been reboot successfully'
     except Exception:
         err = traceback.format_exc()
         logger.error(err)

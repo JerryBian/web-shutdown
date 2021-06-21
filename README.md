@@ -10,7 +10,7 @@ It is only tested in Ubuntu, other platforms might need to tweak a little bit, b
 
 1. Clone to your host
    ```
-   git clone https://github.com/hb-org/web-shutdown.git /tmp/web-shutdown
+   git clone https://github.com/JerryBian/web-shutdown.git /tmp/web-shutdown
    ```
 2. Install modules
    ```
@@ -43,6 +43,7 @@ It is only tested in Ubuntu, other platforms might need to tweak a little bit, b
 
 ### Enviorment variables(Optional)
 
+#### Email notification
 In order to send notifications during startup/shutdown, you have to setup 2 variables:
 - `ENV_SENDGRID_API_KEY`: you could create free account to get the api key of [SendGrid](https://sendgrid.com/)
 - `ENV_MAIL_TO_ADDR`: the email address send to
@@ -51,6 +52,12 @@ Optionally, you can specify more detailed configurations:
 - `ENV_MAIL_TO_NAME`: the name send to
 - `ENV_MAIL_FROM_ADDR`: the email address send from
 - `ENV_MAIL_FROM_TO`: the name send from
+
+#### Misc
+
+- `ENV_SECRET_KEY`: secret key for authentication
+- `ENV_USER_NAME`: user name
+- `ENV_PASSWORD`: user password
 
 ### License
 
