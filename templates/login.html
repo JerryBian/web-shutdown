@@ -3,7 +3,7 @@
 
 {% block body %}
 <div class="d-flex justify-content-center align-items-center">
-    <form style="max-width: 650px;" class="w-100 needs-validation" method="POST" novalidate>
+    <form style="max-width: 650px;" class="w-100 needs-validation" role="form" method="POST" novalidate>
         {% if error %}
         <div class="alert alert-danger" role="alert">
             <strong>Error: </strong>{{ error }}
@@ -12,9 +12,9 @@
         <div class="mb-3">
             <label for="user_name" class="form-label">User Name</label>
             <input type="text" class="form-control" id="user_name" name="user_name" placeholder="type your user name"
-                autocomplete="off" required>
+                autocomplete="off" autofocus required>
             <div class="invalid-feedback">
-                必填
+                Required
             </div>
         </div>
         <div class="mb-3">
@@ -22,7 +22,7 @@
             <input type="password" class="form-control" id="user_pwd" name="user_pwd" autocomplete="off"
                 placeholder="type your password" required>
             <div class="invalid-feedback">
-                必填
+                Required
             </div>
         </div>
         <div class="mb-3 form-check">
@@ -34,4 +34,22 @@
         </div>
     </form>
 </div>
+{% endblock %}
+
+{% block script %}
+<script>
+    let forms = document.querySelectorAll('.needs-validation');
+    // Loop over them and prevent submission
+    Array.prototype.slice.call(forms)
+        .forEach(function (form) {
+            form.addEventListener('submit', function (event) {
+                if (!form.checkValidity()) {
+                    event.preventDefault()
+                    event.stopPropagation()
+                }
+
+                form.classList.add('was-validated')
+            }, false)
+        });
+</script>
 {% endblock %}

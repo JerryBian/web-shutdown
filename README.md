@@ -4,7 +4,9 @@ It is only tested in Ubuntu, other platforms might need to tweak a little bit, b
 
 ### Screenshot
 
-![web interface](./img/1.gif)
+![](./img/1.png)
+
+![](./img/2.png)
 
 ### Install
 

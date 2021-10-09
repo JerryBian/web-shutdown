@@ -91,7 +91,7 @@ def shutdown():
     try:
         args = ['sudo', 'shutdown', '-h', 'now']
         executor.submit(exeCmd, args)
-        out = f'Machine({get_machine()}) has been shutdown successfully'
+        out = f'Machine(<small class="text-muted fs-6">{get_machine()}</small>) has been shutdown successfully'
     except Exception:
         err = traceback.format_exc()
         logger.error(err)
@@ -106,7 +106,7 @@ def reboot():
     try:
         args = ['sudo', 'shutdown', '-r', 'now']
         executor.submit(exeCmd, args)
-        out = f'Machine({get_machine()}) has been reboot successfully'
+        out = f'Machine(<small class="text-muted fs-6">{get_machine()}</small>) has been reboot successfully'
     except Exception:
         err = traceback.format_exc()
         logger.error(err)
