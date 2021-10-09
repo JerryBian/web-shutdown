@@ -1,5 +1,4 @@
 from flask_login import UserMixin
-from werkzeug.datastructures import is_immutable
 
 class User(UserMixin):
     def __init__(self, user_name) -> None:

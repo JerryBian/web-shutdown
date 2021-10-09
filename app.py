@@ -1,8 +1,8 @@
 from datetime import datetime
 from user import User
-from flask import Flask, send_from_directory, jsonify, request, flash, render_template, url_for
+from flask import Flask, jsonify, request, render_template, url_for
 from flask_login import LoginManager
-from flask_login.utils import login_required, login_user, logout_user, current_user
+from flask_login.utils import login_required, login_user, logout_user
 from werkzeug.utils import redirect
 from concurrent.futures import ThreadPoolExecutor
 from sendgrid.helpers.mail import *
@@ -70,7 +70,7 @@ def login():
             u.verify_pwd(request_user_pwd, user_pwd)
             if u.is_authenticated:
                 login_user(u, remember=request_user_remember == 'on',
-                           duration=datetime.timedelta(days=1))
+                           duration=datetime.timedelta(days=7))
                 return redirect(url_for('index'))
 
         error = 'Invalid credentials'
@@ -91,7 +91,7 @@ def shutdown():
     try:
         args = ['sudo', 'shutdown', '-h', 'now']
         executor.submit(exeCmd, args)
-        out = f'Machine({socket.gethostname()}) has been shutdown successfully'
+        out = f'Machine({get_machine()}) has been shutdown successfully'
     except Exception:
         err = traceback.format_exc()
         logger.error(err)
@@ -106,7 +106,7 @@ def reboot():
     try:
         args = ['sudo', 'shutdown', '-r', 'now']
         executor.submit(exeCmd, args)
-        out = f'Machine({socket.gethostname()}) has been reboot successfully'
+        out = f'Machine({get_machine()}) has been reboot successfully'
     except Exception:
         err = traceback.format_exc()
         logger.error(err)
@@ -122,6 +122,9 @@ def exeCmd(args):
     logger.info(f'end exec {args}')
     return command
 
+def get_machine():
+    return f'{socket.gethostname()} @{get_ip()}'
+
 
 def sendMail(message):
     apiKey = os.getenv('ENV_SENDGRID_API_KEY')
@@ -135,7 +138,7 @@ def sendMail(message):
     mailToName = os.getenv('ENV_MAIL_TO_NAME', 'admin')
     mailFromAddr = os.getenv('ENV_MAIL_FROM_ADDR', 'robot@web-shutdown.com')
     mailFromName = os.getenv('ENV_MAIL_FROM_NAME', 'robot')
-    html_content = f'<div><p>{message}</p></div>'
+    html_content = f'<div><p>{message}</p><footer style="text-align:center;margin-top:1.2rem;"><small>{get_machine}</small></footer></div>'
     sg = sendgrid.SendGridAPIClient(api_key=apiKey)
     from_email = Email(mailFromAddr, name=mailFromName)
     to_email = To(mailToAddr, name=mailToName)
@@ -146,7 +149,7 @@ def sendMail(message):
     tracking_settings.open_tracking = OpenTracking(False)
     tracking_settings.subscription_tracking = SubscriptionTracking(False)
     tracking_settings.ganalytics = Ganalytics(False)
-    mail = Mail(from_email, to_email, subject, content)
+    mail = Mail(from_email=from_email, to_emails=to_email, subject=subject, html_content=content)
     mail.tracking_settings = tracking_settings
     response = sg.client.mail.send.post(request_body=mail.get())
     if response.status_code == 202:
@@ -154,6 +157,18 @@ def sendMail(message):
     else:
         print(
             f'send email failed. response code: {response.status_code}, message: {response.body}.')
+
+def get_ip():
+    s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+    try:
+        # doesn't even have to be reachable
+        s.connect(('10.255.255.255', 1))
+        IP = s.getsockname()[0]
+    except Exception:
+        IP = '127.0.0.1'
+    finally:
+        s.close()
+    return IP
 
 
 if __name__ == '__main__':

@@ -3,7 +3,7 @@
 
 {% block body %}
 <div class="d-flex justify-content-center align-items-center">
-    <form style="max-width: 650px;" class="w-100" method="POST">
+    <form style="max-width: 650px;" class="w-100 needs-validation" method="POST" novalidate>
         {% if error %}
         <div class="alert alert-danger" role="alert">
             <strong>Error: </strong>{{ error }}
@@ -11,12 +11,19 @@
         {% endif %}
         <div class="mb-3">
             <label for="user_name" class="form-label">User Name</label>
-            <input type="text" class="form-control" id="user_name" name="user_name" placeholder="user name"
+            <input type="text" class="form-control" id="user_name" name="user_name" placeholder="type your user name"
                 autocomplete="off" required>
+            <div class="invalid-feedback">
+                必填
+            </div>
         </div>
         <div class="mb-3">
             <label for="user_pwd" class="form-label">Password</label>
-            <input type="password" class="form-control" id="user_pwd" name="user_pwd" autocomplete="off" required>
+            <input type="password" class="form-control" id="user_pwd" name="user_pwd" autocomplete="off"
+                placeholder="type your password" required>
+            <div class="invalid-feedback">
+                必填
+            </div>
         </div>
         <div class="mb-3 form-check">
             <input type="checkbox" class="form-check-input" id="user_remember" name="user_remember">
