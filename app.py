@@ -138,7 +138,7 @@ def sendMail(message):
     mailToName = os.getenv('ENV_MAIL_TO_NAME', 'admin')
     mailFromAddr = os.getenv('ENV_MAIL_FROM_ADDR', 'robot@web-shutdown.com')
     mailFromName = os.getenv('ENV_MAIL_FROM_NAME', 'robot')
-    html_content = f'<div><p>{message}</p><footer style="text-align:center;margin-top:1.2rem;"><small>{get_machine}</small></footer></div>'
+    html_content = f'<div><p>{message}</p></div><div style="text-align:center;margin-top:1.2rem;"><small>{get_machine()}</small></div>'
     sg = sendgrid.SendGridAPIClient(api_key=apiKey)
     from_email = Email(mailFromAddr, name=mailFromName)
     to_email = To(mailToAddr, name=mailToName)
