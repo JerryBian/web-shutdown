@@ -4,7 +4,7 @@
   "description": "This small utility helps to shutdown your host via web UI interface.",
   "main": "index.js",
   "scripts": {
-    "build": "npm install && ncu -u && cp node_modules/bootstrap/dist/css/bootstrap.min.css assets/bootstrap.min.css && cp node_modules/bootstrap/dist/js/bootstrap.min.js assets/bootstrap.min.js"
+    "build": "npm install && ncu -u && npm install && cp node_modules/bootstrap/dist/css/bootstrap.min.css assets/bootstrap.min.css && cp node_modules/bootstrap/dist/js/bootstrap.min.js assets/bootstrap.min.js"
   },
   "repository": {
     "type": "git",
@@ -17,7 +17,7 @@
   },
   "homepage": "https://github.com/JerryBian/web-shutdown#readme",
   "devDependencies": {
-    "bootstrap": "^5.2.2",
-    "npm-check-updates": "^16.3.16"
+    "bootstrap": "^5.2.3",
+    "npm-check-updates": "^16.7.12"
   }
 }
